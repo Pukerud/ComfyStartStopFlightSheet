@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "--- Custom Script Miner: Starting ---"
- START THIS ONE TIME : /home/octa/comfyui_unified_setup/scripts/start_comfyui.sh
+/home/octa/comfyui_unified_setup/scripts/start_comfyui.sh &
 # This infinite loop is required for HiveOS to keep the miner active.
 while true
 do
