@@ -18,7 +18,7 @@ cleanup() {
   # This prevents the user's script from hanging and blocking the HiveOS agent.
   (
     su "$TARGET_USER" -s /bin/bash -c "echo \"\$(date '+%Y-%m-%d %H:%M:%S') - h-run.sh received stop signal. Stopping comfyui...\" >> \"$LOG_FILE\""
-    su "$TARGET_USER" -s /bin/bash -c "/home/octa/comfyui_unified_setup/scripts/stop_comfyui.sh"
+    su "$TARGET_USER" -s /bin/bash -c "cd /home/octa/UltimatComfy && /home/octa/comfyui_unified_setup/scripts/stop_comfyui.sh"
     su "$TARGET_USER" -s /bin/bash -c "echo \"\$(date '+%Y-%m-%d %H:%M:%S') - comfyui stop command issued.\" >> \"$LOG_FILE\""
   ) &
   echo "--- h-run.sh: Waiting 10 seconds for stop script to complete... ---"
@@ -34,7 +34,7 @@ trap 'cleanup' SIGTERM SIGHUP SIGINT SIGQUIT EXIT
 # --- Main Execution ---
 echo "--- h-run.sh: Starting miner process... ---"
 su "$TARGET_USER" -s /bin/bash -c "echo \"\$(date '+%Y-%m-%d %H:%M:%S') - h-run.sh starting comfyui...\" >> \"$LOG_FILE\""
-su "$TARGET_USER" -s /bin/bash -c "/home/octa/comfyui_unified_setup/scripts/start_comfyui.sh &"
+su "$TARGET_USER" -s /bin/bash -c "cd /home/octa/UltimatComfy && /home/octa/comfyui_unified_setup/scripts/start_comfyui.sh &"
 
 # --- Keep Script Alive ---
 # This loop is required to keep the script running so HiveOS doesn't think it crashed.
