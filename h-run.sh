@@ -21,7 +21,9 @@ cleanup() {
     su "$TARGET_USER" -s /bin/bash -c "/home/octa/comfyui_unified_setup/scripts/stop_comfyui.sh"
     su "$TARGET_USER" -s /bin/bash -c "echo \"\$(date '+%Y-%m-%d %H:%M:%S') - comfyui stop command issued.\" >> \"$LOG_FILE\""
   ) &
-  echo "--- h-run.sh: Cleanup command issued in background. Exiting now. ---"
+  echo "--- h-run.sh: Waiting 10 seconds for stop script to complete... ---"
+  sleep 10
+  echo "--- h-run.sh: Exiting now. ---"
   exit 0
 }
 
