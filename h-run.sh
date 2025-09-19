@@ -22,6 +22,7 @@ cleanup() {
     su "$TARGET_USER" -s /bin/bash -c "echo \"\$(date '+%Y-%m-%d %H:%M:%S') - comfyui stop command issued.\" >> \"$LOG_FILE\""
   ) &
   echo "--- h-run.sh: Cleanup command issued in background. Exiting now. ---"
+  exit 0
 }
 
 # --- Trap Exit Signals ---
