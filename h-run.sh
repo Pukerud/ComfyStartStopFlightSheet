@@ -14,9 +14,14 @@ chown "$TARGET_USER:$TARGET_USER" "$LOG_DIR"
 # This function will be called by the trap command when the script receives a signal
 cleanup() {
   echo "--- h-run.sh: Caught exit signal, running cleanup... ---"
-  su "$TARGET_USER" -s /bin/bash -c "echo \"\$(date '+%Y-%m-%d %H:%M:%S') - h-run.sh received stop signal. Stopping comfyui...\" >> \"$LOG_FILE\""
-  su "$TARGET_USER" -s /bin/bash -c "/home/octa/comfyui_unified_setup/scripts/stop_comfyui.sh"
-  su "$TARGET_USER" -s /bin/bash -c "echo \"\$(date '+%Y-%m-%d %H:%M:%S') - comfyui stop command issued.\" >> \"$LOG_FILE\""
+  # Run the user's stop script in a background subshell to ensure this script exits immediately.
+  # This prevents the user's script from hanging and blocking the HiveOS agent.
+  (
+    su "$TARGET_USER" -s /bin/bash -c "echo \"\$(date '+%Y-%m-%d %H:%M:%S') - h-run.sh received stop signal. Stopping comfyui...\" >> \"$LOG_FILE\""
+    su "$TARGET_USER" -s /bin/bash -c "/home/octa/comfyui_unified_setup/scripts/stop_comfyui.sh"
+    su "$TARGET_USER" -s /bin/bash -c "echo \"\$(date '+%Y-%m-%d %H:%M:%S') - comfyui stop command issued.\" >> \"$LOG_FILE\""
+  ) &
+  echo "--- h-run.sh: Cleanup command issued in background. Exiting now. ---"
 }
 
 # --- Trap Exit Signals ---
